@@ -1,5 +1,12 @@
 #pragma once
 
+#include <string>
+#include <map>
+#include <vector>
+#include <imgui.h>
+
+typedef unsigned int GLuint;
+
 // Not yet implemented
 enum class ImageCacheReturnStatus {
     None,
@@ -23,8 +30,10 @@ private:
 public:
     ~ImageCache();
 
-    void loadImages(const std::string &basePath, const std::vector<std::string> imageFiles);
-    ImageData* getImageData(const std::string fileName);
-    void deleteImageCacheData(const std::string fileName);
+    void loadImages(const std::string &path, const std::vector<std::string> imageFiles);
+    ImageData* getImageData(const std::string &fileName);
+    void trackMemoryUsage();
+    void statisticsAboutUsage();
+    void deleteImageCacheData(const std::string &fileName);
     void deleteImageCache();
 };

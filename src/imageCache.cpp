@@ -3,11 +3,11 @@
 #include <iostream>
 #include <vector>
 #include <map>
-#include <GLFW/glfw3.h>
 
 #include "imgui.h"
 #include "imgui_impl_glfw.h"
 #include "imgui_impl_opengl3.h"
+#include <GLFW/glfw3.h>
 
 #define _CRT_SECURE_NO_WARNINGS
 #define STB_IMAGE_IMPLEMENTATION
@@ -68,21 +68,21 @@ bool loadTextureFromFile(const char *file_name, GLuint *out_texture, int *out_wi
 }
 
 // Stores and loads images into the mImageCache map
-void ImageCache::loadImages(const std::string &basePath, const std::vector<std::string> imageFiles)
+void ImageCache::loadImages(const std::string &path, const std::vector<std::string> imageFiles)
 {
     // Loads in images
     for (const auto &image : imageFiles)
     {
         ImageData imageData;
-        bool retExtra = loadTextureFromFile((basePath + image).c_str(), &imageData.textureID, &imageData.width, &imageData.height);
-        std::cout << (basePath + image) << std::endl;
+        bool retExtra = loadTextureFromFile((path + image).c_str(), &imageData.textureID, &imageData.width, &imageData.height);
+        std::cout << (path + image) << std::endl;
         IM_ASSERT(retExtra);
         mImageCache.emplace(image, imageData);
     }
 }
 
 // Retrives that data from the mImageCache map
-ImageData *ImageCache::getImageData(const std::string fileName)
+ImageData *ImageCache::getImageData(const std::string &fileName)
 {
     // Locates the data
     auto it = mImageCache.find(fileName);
@@ -97,8 +97,18 @@ ImageData *ImageCache::getImageData(const std::string fileName)
     return nullptr;
 }
 
+void ImageCache::trackMemoryUsage()
+{
+    // Should track the memory usage live
+}
+
+void ImageCache::statisticsAboutUsage()
+{
+    // Should show general information, about how much is used of the cache and amount of files etc.
+}
+
 // Deletes a single entry into the mImageCache map
-void ImageCache::deleteImageCacheData(const std::string fileName)
+void ImageCache::deleteImageCacheData(const std::string &fileName)
 {
     // Locates the data
     auto it = mImageCache.find(fileName);
@@ -113,7 +123,8 @@ void ImageCache::deleteImageCacheData(const std::string fileName)
 }
 
 // Clears the whole mImageCache map and set the size of the container to 0
-void ImageCache::deleteImageCache() {
+void ImageCache::deleteImageCache()
+{
     mImageCache.clear();
 }
 
