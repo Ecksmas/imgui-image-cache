@@ -11,7 +11,8 @@ std::vector<std::string> images = {
     "picture1.jpg",
     "picture2.jpg",
     "picture3.jpg",
-    "placeholder.jpg"};
+    "placeholder.jpg"
+};
 
 int main(int argc, char const *argv[])
 {
@@ -27,10 +28,10 @@ int main(int argc, char const *argv[])
     ImGuiIO &io = ImGui::GetIO();
     io.ConfigFlags |= ImGuiConfigFlags_NavEnableKeyboard;
 
-    int glfwWidth = 1000;
-    int glfwHeigth = 400;
+    int glfwWidth = 1200;
+    int glfwHeigth = 600;
     glfwWindowHint(GLFW_DECORATED, GLFW_FALSE);
-    GLFWwindow *window = glfwCreateWindow(glfwWidth, glfwHeigth, "imgui-font-manager", NULL, NULL);
+    GLFWwindow *window = glfwCreateWindow(glfwWidth, glfwHeigth, "imgui-image-cache", NULL, NULL);
 
     if (!window)
     {
@@ -71,10 +72,27 @@ int main(int argc, char const *argv[])
 
         ImGui::Begin("Image Cache Demo", 0, window_flags);
 
+        float imageScale = 0.1f;
+
         ImageData *image1 = imageCache.getImageData("picture1.jpg");
-        ImVec2 image1Size = ImVec2(image1->width, image1->height);
+        ImVec2 image1Size = ImVec2(image1->width * imageScale, image1->height * imageScale);
+
+        ImageData *image2 = imageCache.getImageData("picture2.jpg");
+        ImVec2 image2Size = ImVec2(image2->width * imageScale, image2->height * imageScale);
+
+        ImageData *image3 = imageCache.getImageData("picture3.jpg");
+        ImVec2 image3Size = ImVec2(image2->width * imageScale, image2->height * imageScale);
 
         ImGui::Image(image1->textureID, image1Size);
+        ImGui::SameLine();
+
+        ImGui::Image(image2->textureID, image2Size);
+        ImGui::SameLine();
+
+        ImGui::Image(image3->textureID, image3Size);
+        ImGui::SameLine();
+
+        std::cout << imageCache.trackMemoryUsage() << std::endl;
 
         /**
          * End of example

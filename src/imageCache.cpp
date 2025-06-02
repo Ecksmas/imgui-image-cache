@@ -97,14 +97,18 @@ ImageData *ImageCache::getImageData(const std::string &fileName)
     return nullptr;
 }
 
-void ImageCache::trackMemoryUsage()
+// Track the total size of the cache assuming 4 bytes per pixel
+int ImageCache::trackMemoryUsage()
 {
-    // Should track the memory usage live
-}
+    int totalBytes = 0;
 
-void ImageCache::statisticsAboutUsage()
-{
-    // Should show general information, about how much is used of the cache and amount of files etc.
+    for (const auto &pair : mImageCache)
+    {
+        const ImageData& data = pair.second;
+        totalBytes += data.width * data.height * 4;
+    }
+    
+    return totalBytes;
 }
 
 // Deletes a single entry into the mImageCache map

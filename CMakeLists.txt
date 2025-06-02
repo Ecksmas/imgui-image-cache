@@ -12,17 +12,20 @@ set(IMGUI_SRC
     third_party/imgui/imgui_widgets.cpp
 )
 
-# Add ImGui backend files
 set(IMGUI_BACKENDS
     third_party/imgui/backends/imgui_impl_glfw.cpp
     third_party/imgui/backends/imgui_impl_opengl3.cpp
 )
 
+set(IMGUI_ALL_SRC
+    ${IMGUI_SRC}
+    ${IMGUI_BACKENDS}
+)
+
 add_executable(${PROJECT_NAME}
     src/imageCache.cpp
     examples/examplesImageCache.cpp
-    ${IMGUI_SRC}
-    ${IMGUI_BACKENDS}
+    ${IMGUI_ALL_SRC}
 )
 
 target_include_directories(${PROJECT_NAME} PRIVATE
@@ -35,19 +38,25 @@ target_include_directories(${PROJECT_NAME} PRIVATE
 add_executable(runTests
     tests/testimageCache.cpp
     src/imageCache.cpp
-    ${IMGUI_SRC}
+    ${IMGUI_ALL_SRC}
 )
 
 target_include_directories(runTests PRIVATE
     ${CMAKE_SOURCE_DIR}/include
     ${CMAKE_SOURCE_DIR}/third_party/doctest
     ${CMAKE_SOURCE_DIR}/third_party/imgui
+    ${CMAKE_SOURCE_DIR}/third_party/imgui/backends
 )
 
 find_package(OpenGL REQUIRED)
 find_package(glfw3 REQUIRED)
 
-target_link_libraries(${PROJECT_NAME}
+target_link_libraries(${PROJECT_NAME} PRIVATE
+    OpenGL::GL
+    glfw
+)
+
+target_link_libraries(runTests PRIVATE
     OpenGL::GL
     glfw
 )

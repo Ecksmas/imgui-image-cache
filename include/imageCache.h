@@ -4,8 +4,9 @@
 #include <map>
 #include <vector>
 #include <imgui.h>
+#include <GLFW/glfw3.h>
 
-typedef unsigned int GLuint;
+// typedef unsigned int GLuint;
 
 // Not yet implemented
 enum class ImageCacheReturnStatus {
@@ -32,8 +33,7 @@ public:
 
     void loadImages(const std::string &path, const std::vector<std::string> imageFiles);
     ImageData* getImageData(const std::string &fileName);
-    void trackMemoryUsage();
-    void statisticsAboutUsage();
+    int trackMemoryUsage();
     void deleteImageCacheData(const std::string &fileName);
     void deleteImageCache();
 };
