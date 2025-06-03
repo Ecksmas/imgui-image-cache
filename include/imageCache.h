@@ -27,6 +27,7 @@ class ImageCache
 {
 private:
     std::map<std::string, ImageData> mImageCache;
+    const std::string mFallBackImage = "placeholder.jpg";
 
 public:
     ~ImageCache();
@@ -34,6 +35,5 @@ public:
     void loadImages(const std::string &path, const std::vector<std::string> imageFiles);
     ImageData* getImageData(const std::string &fileName);
     int trackMemoryUsage();
-    void deleteImageCacheData(const std::string &fileName);
     void deleteImageCache();
 };

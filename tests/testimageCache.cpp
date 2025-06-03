@@ -19,14 +19,11 @@ TEST_CASE("ImageCache loads images and retrieves them") {
     // Normal getImageData test
     CHECK(imageCache.getImageData("picture1.jpg") != nullptr);
 
-    // Checks persistency after loading image
-    // CHECK();
-
-    // Check for a unavailable image
-    CHECK(imageCache.getImageData("fakePicture.jpg") == nullptr);
+    // Check for a unavailable image and loads placeholder
+    CHECK(imageCache.getImageData("fakePicture.jpg") != nullptr);
 
     // Sanity test
-    //CHECK(imageCache.getImageData("picture1.jpg") == nullptr);
+    // CHECK(imageCache.getImageData("picture1.jpg") == nullptr);
 
     ImGui::DestroyContext();
 }

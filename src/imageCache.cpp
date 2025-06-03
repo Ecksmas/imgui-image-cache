@@ -87,13 +87,19 @@ ImageData *ImageCache::getImageData(const std::string &fileName)
     // Locates the data
     auto it = mImageCache.find(fileName);
 
-    // If the data is found a pointer to a ImageData struct is returned
+    // Locates the placeholder if the requested file is not found
+    if (it == mImageCache.end())
+    {
+        it = mImageCache.find(mFallBackImage);
+    }
+
+    // Returns the data depending on the result above
     if (it != mImageCache.end())
     {
         return &it->second;
     }
 
-    std::cerr << "Could not get data in mImageCache" << std::endl;
+    std::cerr << "Could not get data or " << mFallBackImage << " in mImageCache" << std::endl;
     return nullptr;
 }
 
@@ -104,26 +110,11 @@ int ImageCache::trackMemoryUsage()
 
     for (const auto &pair : mImageCache)
     {
-        const ImageData& data = pair.second;
+        const ImageData &data = pair.second;
         totalBytes += data.width * data.height * 4;
     }
-    
+
     return totalBytes;
-}
-
-// Deletes a single entry into the mImageCache map
-void ImageCache::deleteImageCacheData(const std::string &fileName)
-{
-    // Locates the data
-    auto it = mImageCache.find(fileName);
-
-    // If the data is found the mImageCache entry is deleted
-    if (it != mImageCache.end())
-    {
-        mImageCache.erase(it);
-    }
-
-    std::cerr << "Could not delete data in mImageCache" << std::endl;
 }
 
 // Clears the whole mImageCache map and set the size of the container to 0

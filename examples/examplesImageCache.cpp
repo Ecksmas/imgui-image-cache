@@ -28,7 +28,7 @@ int main(int argc, char const *argv[])
     ImGuiIO &io = ImGui::GetIO();
     io.ConfigFlags |= ImGuiConfigFlags_NavEnableKeyboard;
 
-    int glfwWidth = 1200;
+    int glfwWidth = 800;
     int glfwHeigth = 600;
     glfwWindowHint(GLFW_DECORATED, GLFW_FALSE);
     GLFWwindow *window = glfwCreateWindow(glfwWidth, glfwHeigth, "imgui-image-cache", NULL, NULL);
@@ -81,16 +81,22 @@ int main(int argc, char const *argv[])
         ImVec2 image2Size = ImVec2(image2->width * imageScale, image2->height * imageScale);
 
         ImageData *image3 = imageCache.getImageData("picture3.jpg");
-        ImVec2 image3Size = ImVec2(image2->width * imageScale, image2->height * imageScale);
+        ImVec2 image3Size = ImVec2(image3->width * imageScale, image3->height * imageScale);
+
+        // Incorrect file name entered, will load placeholder instead
+        ImageData *image4 = imageCache.getImageData("abc.jpg");
+        ImVec2 image4Size = ImVec2(image4->width * imageScale, image4->height * imageScale);
 
         ImGui::Image(image1->textureID, image1Size);
+        
         ImGui::SameLine();
-
         ImGui::Image(image2->textureID, image2Size);
-        ImGui::SameLine();
-
+        
+        ImGui::SetCursorPosY(300);
         ImGui::Image(image3->textureID, image3Size);
+        
         ImGui::SameLine();
+        ImGui::Image(image4->textureID, image4Size);
 
         std::cout << imageCache.trackMemoryUsage() << std::endl;
 
