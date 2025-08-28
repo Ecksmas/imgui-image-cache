@@ -1,6 +1,6 @@
 # ImGui Image Cache
 
-A modular font manager for Dear ImGui, which was created for the need to be able to load different font across several files and organise and centralise font creation.
+A image cache system used with Dear ImGui, which was created for the need to be able to reuse already loaded images and manage memory of them.
 
 ## Overview
 
